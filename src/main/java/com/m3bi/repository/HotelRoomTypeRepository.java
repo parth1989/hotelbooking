@@ -1,4 +1,4 @@
-package com.m3bi.dao;
+package com.m3bi.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

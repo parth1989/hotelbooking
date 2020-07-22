@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.m3bi.model.ExceptionResponse;
 
-//@Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	

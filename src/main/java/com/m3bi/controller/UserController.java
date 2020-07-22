@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.m3bi.dao.HotelBookingRepository;
-import com.m3bi.dao.HotelRoomTypeRepository;
-import com.m3bi.dao.UserRepository;
 import com.m3bi.model.HotelRoomBooking;
 import com.m3bi.model.RoomType;
 import com.m3bi.model.User;
+import com.m3bi.repository.HotelBookingRepository;
+import com.m3bi.repository.HotelRoomTypeRepository;
+import com.m3bi.repository.UserRepository;
 
 @RestController
 public class UserController {

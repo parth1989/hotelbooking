@@ -14,10 +14,10 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.m3bi.dao.HotelRepository;
-import com.m3bi.dao.UserRepository;
 import com.m3bi.model.HotelBookingRequest;
 import com.m3bi.model.User;
+import com.m3bi.repository.HotelRepository;
+import com.m3bi.repository.UserRepository;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)
 @TestPropertySource(properties = "server.port=8080")

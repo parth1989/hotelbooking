@@ -1,4 +1,4 @@
-package com.m3bi.dao;
+package com.m3bi.repository;
 
 import java.util.Date;
 import java.util.List;

@@ -9,20 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.m3bi.dao.HotelBookingRepository;
-import com.m3bi.dao.HotelRepository;
-import com.m3bi.dao.UserRepository;
 import com.m3bi.exception.HotelNotFoundException;
 import com.m3bi.exception.RoomTypeNotFoundException;
 import com.m3bi.exception.UserNotFoundException;
 import com.m3bi.model.Hotel;
 import com.m3bi.model.HotelBookingRequest;
 import com.m3bi.model.HotelRoomBooking;
-import com.m3bi.model.User;
+import com.m3bi.repository.HotelBookingRepository;
+import com.m3bi.repository.HotelRepository;
+import com.m3bi.repository.UserRepository;
 import com.m3bi.service.HotelBookingService;
 
 @RestController
@@ -59,13 +57,7 @@ public class HotelBookingController {
 		return hotelRoomBookings;
 	}
 
-	@GetMapping("/hotel/users")
-	public List<User> getUsers() {
-		List<User> users = new ArrayList<>();
-		userRepo.findAll().forEach(users::add);
-		return users;
-	}
-
+	
 	@GetMapping("/hotel/hotel")
 	public List<Hotel> getHotelRoom() {
 		List<Hotel> hotelRoomBookings = new ArrayList<>();

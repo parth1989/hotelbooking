@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.m3bi.dao.HotelRoomTypeRepository;
 import com.m3bi.model.RoomType;
+import com.m3bi.repository.HotelRoomTypeRepository;
 
 @RestController
 public class HotelRoomTypeController {

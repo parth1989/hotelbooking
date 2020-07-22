@@ -13,11 +13,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.m3bi.dao.HotelBookingRepository;
-import com.m3bi.dao.HotelRepository;
-import com.m3bi.dao.HotelRoomRepository;
-import com.m3bi.dao.HotelRoomTypeRepository;
-import com.m3bi.dao.UserRepository;
 import com.m3bi.exception.HotelNotFoundException;
 import com.m3bi.exception.RoomTypeNotFoundException;
 import com.m3bi.exception.UserNotFoundException;
@@ -27,6 +22,11 @@ import com.m3bi.model.HotelRoom;
 import com.m3bi.model.HotelRoomBooking;
 import com.m3bi.model.RoomType;
 import com.m3bi.model.User;
+import com.m3bi.repository.HotelBookingRepository;
+import com.m3bi.repository.HotelRepository;
+import com.m3bi.repository.HotelRoomRepository;
+import com.m3bi.repository.HotelRoomTypeRepository;
+import com.m3bi.repository.UserRepository;
 
 @Service
 public class HotelBookingServiceImpl implements HotelBookingService {
@@ -96,17 +96,18 @@ public class HotelBookingServiceImpl implements HotelBookingService {
 				// check hotel room is already booked or in pending approval before we proceed new booking.
 				for(HotelRoomBooking booking:hotelRoomBookings) {
 					if(BOOKED.name().equals(booking.getBookingStatus()) || PENDING_APPROVAL.name().equals(booking.getBookingStatus())) {
-						vacantHotelRooms.removeAll(hotelRooms.parallelStream().filter((room) -> booking.getHotelRoomId() == room.getId()).collect(Collectors.toList()));
+						vacantHotelRooms.removeAll(hotelRooms.stream().filter((room) -> booking.getHotelRoomId() == room.getId()).collect(Collectors.toList()));
 					}
 				}
 				
 				// check if hotel rooms are empty and probable booking status is booked.
 				if((vacantHotelRooms == null || vacantHotelRooms.isEmpty()) && BOOKED.name().equals(bookingStatus)) {
 					// check pending approval hotel rooms and cancel the current booking and assign it to this booking.
-					List<HotelRoomBooking> pendingApprovalHotelRoomBookings = hotelRoomBookings.parallelStream().filter((booking) -> PENDING_APPROVAL.name().equals(booking.getBookingStatus())).collect(Collectors.toList()); //hotelBookingDAO.findByHotelIdAndBookingDateAndBookingStatusAndHotelRoomType(hotel.getId(), bookingDate, PENDING_APPROVAL.name(), hotelRoomType);
+					List<HotelRoomBooking> pendingApprovalHotelRoomBookings = hotelRoomBookings.stream().filter((booking) -> PENDING_APPROVAL.name().equals(booking.getBookingStatus())).collect(Collectors.toList()); //hotelBookingDAO.findByHotelIdAndBookingDateAndBookingStatusAndHotelRoomType(hotel.getId(), bookingDate, PENDING_APPROVAL.name(), hotelRoomType);
 					if(pendingApprovalHotelRoomBookings != null && pendingApprovalHotelRoomBookings.size() > 0) {
 						HotelRoomBooking pendingApprovalHotelRoomBooking = pendingApprovalHotelRoomBookings.get(0);
-						hotelRoom = hotelRooms.parallelStream().filter((room) -> pendingApprovalHotelRoomBooking.getHotelRoomId() == room.getId()).collect(Collectors.toList()).get(0);
+						hotelRoom = hotelRooms.stream().filter((room) -> pendingApprovalHotelRoomBooking.getHotelRoomId() == room.getId()).collect(Collectors.toList()).get(0);
+						
 						pendingApprovalHotelRoomBooking.setBookingStatus(CANCELLED.name());
 						hotelBookingDAO.save(pendingApprovalHotelRoomBooking);
 					} else {
@@ -118,9 +119,6 @@ public class HotelBookingServiceImpl implements HotelBookingService {
 				hotelRoomBooking.setHotelRoomId(hotelRoom.getId());
 				hotelRoomBooking = hotelBookingDAO.save(hotelRoomBooking);
 				
-				// assign a hotel room and update booking object
-//				hotelRoom.setBookingStatus(bookingStatus);
-//				hotelRoomRepo.save(hotelRoom);
 				// deduct the bonus points from user for this booking if status is BOOKED.
 				if(BOOKED.name().equals(bookingStatus)) {
 					int remainingUserBonusPoints = user.getBonusPoints() - roomType.getCost().intValue();
