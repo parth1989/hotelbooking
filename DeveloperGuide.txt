@@ -1,0 +1,71 @@
+
+Swagger URL : http://localhost:8080/swagger-ui.html
+
+UseCase-1: Insert new booking.
+1)
+Request:
+Post: http://localhost:8080/hotel/booking
+
+{
+"hotelName":"BBQ",
+"roomType":"DELUXE",
+"userId":"1",
+"bookingDate":"2020-07-22"
+}
+
+Response: 200 (status.ok)
+
+UseCase-2: Fetch booking
+---- Fetch booking -----------
+GET: http://localhost:8080/hotel/bookings
+{"id":2,"hotelId":2,"hotelRoomId":4,"hotelRoomType":"DELUXE","bookingDate":"2020-07-22","bookingStatus":"BOOKED","userId":1}
+
+
+
+Usecase-3: Insert new booking where user have less bonus amount compare to hotel booking price
+
+Request:
+Post: http://localhost:8080/hotel/booking
+
+{
+"hotelName":"BBQ",
+"roomType":"DELUXE",
+"userId":"3",
+"bookingDate":"2020-07-22"
+}
+
+Response: 200 (status.ok)
+
+
+Usecase-5: verify hotelbooking with pending_approval status
+Response:
+[{"id":2,"hotelId":2,"hotelRoomId":5,"hotelRoomType":"DELUXE","bookingDate":"2020-07-22","bookingStatus":"PENDING_APPROVAL","userId":3}]
+
+
+
+---- Error message ---------
+
+1) 
+POST: http://localhost:8080/hotel/booking
+{
+"hotelName":"Mariot",
+"roomType":"PLATINUM",
+"userId":"1",
+"bookingDate":"2020-07-22"
+}
+
+Response:
+{
+    "errorMessage": "Hotel rooms in Mariot of type PLATINUM are not available.",
+    "requestedURI": "/hotel/booking"
+}
+
+
+
+
+
+
+
+
+
+
